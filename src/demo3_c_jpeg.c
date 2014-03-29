@@ -1,5 +1,62 @@
+/**************************************************************
+ * Description: Parse Picture(Jpeg/Bmp/Gif/Png) Head 
+ * Date:
+ * Others: 
+**************************************************************/
+
 #include <stdio.h>
 #include <string.h>
+#include "../include/demo3_typedef.h"
+
+enum {
+    UnkownUnit = 0,
+    Meter = 1
+} pHYs;
+
+typedef struct _PNGImg
+{
+    UINT16_T wd;  
+    UINT16_T hg; 
+}PNGImg;
+DWORD_T pHYsCrc;
+
+#if 0
+void make_crc_table(void)
+{
+    unsigned long c;
+    int n, k;
+
+    for (n = 0; n < 256; n++) {
+        c = (unsigned long) n;
+        for (k = 0; k < 8; k++) {
+            if (c & 1)
+                c = 0xedb88320L ^ (c >> 1);
+            else
+                c = c >> 1;
+        }
+        crc_table[n] = c;
+    }
+    crc_table_computed = 1;
+}
+
+unsigned long update_crc(unsigned long crc, unsigned char *buf,int len)
+{
+    unsigned long c = crc;
+    int n;
+
+    if (!crc_table_computed)
+        make_crc_table();
+    for (n = 0; n < len; n++) {
+        c = crc_table[(c ^ buf[n]) & 0xff] ^ (c >> 8);
+    }
+    return c;
+}
+
+unsigned long demo3_jpeg_crc(unsigned char *buf, int len)
+{
+    return update_crc(0xffffffffL, buf, len) ^ 0xffffffffL;
+}
+#endif
 
 static int Demo3GetPictureFormat( char* pic);
 static void  Demo3ParseJpegHead( char* buffer, int length, int* pWidth, int* pHight);
@@ -24,11 +81,12 @@ void demo3_test_parse_jpeg()
     FILE *file = NULL;
     enum PicFormat format = PIC_FORMAT_UNKNOWN;
 
-    char* pic = "~/TEMP/30052010060.jpg";
+    //char* pic = "/home/chen/TEMP/30052010060.jpg";
+    char* pic = "/home/chen/TEMP/300px-PNG_transparency_demonstration_2.png";
 
     
     format = (enum PicFormat)Demo3GetPictureFormat(pic);
-    printf("[%s] %s format %d ,sizeof(char)=%d\n",__FUNCTION__,pic,format,sizeof(char));
+    printf("[%s] %s format %d\n",__FUNCTION__,pic,format);
 
     file = fopen(pic,"rb");
     if( NULL == file)
@@ -206,8 +264,15 @@ static void Demo3ParseGifHead(char* buffer, int length, int* pWidth, int* pHight
     return;
 
 }
+
 static void Demo3ParsePngHead(char* buffer, int length, int* pWidth, int* pHight)
 {
+    char *ptr = NULL;
+    unsigned long value=0;
+    unsigned char wtmp[4]={'0'};
+    unsigned char htmp[4]={'0'};
+
+
     if((NULL ==pWidth) || (NULL ==pHight))
     {
         return;
@@ -215,6 +280,18 @@ static void Demo3ParsePngHead(char* buffer, int length, int* pWidth, int* pHight
     printf("%s: length=%d \n",__FUNCTION__,length);
     *pWidth = 0;
     *pHight= 0;
+
+    ptr = buffer;
+    //value= demo3_jpeg_crc(ptr,17);
+
+    memcpy(wtmp,&buffer[16],4);
+    memcpy(htmp,&buffer[20],4);
+
+    *pWidth = ((int)(unsigned char)wtmp[2]) * 256 + (int)(unsigned char)wtmp[3];
+    *pHight = ((int)(unsigned char)htmp[2]) * 256 + (int)(unsigned char)htmp[3];
+
+    printf("%s: w=%d, h=%d\n",__FUNCTION__,*pWidth,*pHight);
+    return;
 }
 
 static int Demo3GetPictureFormat( char* filename)
