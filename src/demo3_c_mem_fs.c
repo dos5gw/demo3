@@ -1,3 +1,9 @@
+/**************************************************************
+ * Description: Simple RAM File System
+ * Date:
+ * Others: 
+**************************************************************/
+
 #include <stdio.h>
 #include <string.h>
 #include <stdarg.h>
@@ -6,13 +12,6 @@
 #include <semaphore.h>
 #include "../include/demo3_typedef.h"
 #include "../include/demo3_c_mem_fs.h"
-
-/******************************************************************************/
-/*                                                                            */
-/*                  simple RAM File System                                    */
-/*                                                                            */
-/******************************************************************************/
-
 
 static FS_NODE* fs_head = NULL;
 static sem_t mem_fs_enques;
@@ -58,9 +57,6 @@ UINT32_T mem_fs_porting_file_open(CONST CHAR_T *filename, CONST CHAR_T *mode)
 {
 	FS_NODE*  fs_list;
 
-	if(filename == NULL) return NULL;
-	
-	
 	if(*filename=='/')
 	{
 		filename++;
@@ -82,7 +78,7 @@ UINT32_T mem_fs_porting_file_open(CONST CHAR_T *filename, CONST CHAR_T *mode)
 			{
 				////Semapore_Signal(file_access);
 				dbgprt(" -->mem_fs open file %s ERR! already opened!\n",filename);
-				return NULL;
+				return DEMO_ERR;
 			}
 			else
 			{
@@ -100,7 +96,7 @@ UINT32_T mem_fs_porting_file_open(CONST CHAR_T *filename, CONST CHAR_T *mode)
 	{
 		//printf("mem_fs_porting_file_open   READ ONLY MODE\n");
 		////Semapore_Signal(file_access);
-		return NULL;
+		return DEMO_ERR;
 	}
 	fs_list->is_open=1;
 	fs_list->file_name=(char*)malloc(strlen(filename)+1);

@@ -11,7 +11,7 @@ DIR_OBJ = $(DIR)/obj
 #HDREXTS = .h. .hpp .h++
 # Move this to make.mk
 
-APP = demo2
+APP = demo3
 CPP_EXTENSION=cpp
 
 CPP_SRCS = $(foreach d,$(DIR_CPP_SOURCE),$(wildcard $(d)/*.cpp) )
@@ -32,6 +32,7 @@ INCLUDE+= -I. -I$(DIR_INCLUDE)
 LDFLAGS += -lpthread -lstdc++
 
 all: $(APP)
+	./demo3
 
 $(CPP_OBJS): $(DIR_OBJ)/%.o: %.cpp
 	$(CXX) -c $(CFLAGS) -o $@ $<

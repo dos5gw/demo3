@@ -2,9 +2,10 @@ README
 ======
 
 ## dir intro
-- src: \<Unix环境高级编程\>读书笔记    
-- cpp: \<C++ Primer\>读书笔记   
-- testcase: 测试代码   
+- include:  
+- src:      
+- cpp:    
+- testcase:    
 
 ## compile
 - make clean && make all  
@@ -12,6 +13,5 @@ README
 ## requirement
 - gcc >= 4.4, supports c++ 0x  
 
-## ther
-cir2633#gmail.com
-  
+## other
+- echo -n "Y2lyMjYzM0BnbWFpbC5jb20=" |base64 -d  
