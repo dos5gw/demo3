@@ -3,19 +3,29 @@
 #include "../include/demo3_typedef.h"
 
 // extern declare c-function list:
-extern void test_parse_jpeg();
-extern void test_ccode();  
+extern int file_io_test();
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 void test_big_small_endian()
 {
     unsigned int a = 1;
-    BYTE *ptr = (BYTE*)&a; // cast int* to unsigned char* 
+    BYTE_T *ptr = (BYTE_T*)&a; // cast int* to unsigned char* 
 
-    printf("system is %s endian\n",(*ptr==1?"small":"big"));
+    dbgprt("system is %s endian\n",(*ptr==1?"small":"big"));
 }
+#ifdef __cplusplus
+}
+#endif
 
 int main(void) {
 
+    _ENTER(main);
     test_big_small_endian();
+
+
+    file_io_test();
+
     return 0;
 }

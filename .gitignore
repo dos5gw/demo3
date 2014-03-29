@@ -1,0 +1,9 @@
+obj\
+demo2
+tags
+cscope*
+*.o
+*.so
+*.7z
+*.gz
+*.tar
