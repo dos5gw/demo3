@@ -32,7 +32,7 @@ X=X;\
 }\
 while(0)
 
-#define _ENTER(FUNC) \
+#define _DEBUG_ENTER(FUNC) \
 do{\
 printf("Function: "#FUNC" Enter!\n");\
 }\

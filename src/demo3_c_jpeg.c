@@ -81,8 +81,7 @@ void demo3_test_parse_jpeg()
     FILE *file = NULL;
     enum PicFormat format = PIC_FORMAT_UNKNOWN;
 
-    //char* pic = "/home/chen/TEMP/30052010060.jpg";
-    char* pic = "/home/chen/TEMP/300px-PNG_transparency_demonstration_2.png";
+    char* pic = "300px-PNG_transparency_demonstration_2.png";
 
     
     format = (enum PicFormat)Demo3GetPictureFormat(pic);

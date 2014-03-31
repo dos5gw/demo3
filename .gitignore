@@ -2,6 +2,7 @@ obj\
 demo3
 tags
 cscope*
+*.swp
 *.o
 *.so
 *.7z
