@@ -1,19 +1,24 @@
 #include <cstdio>
 #include <cstdlib>
 #include <unistd.h>
-#include "../include/demo3_typedef.h"
+#include <iostream>
+#include <string>
+#include "test.hpp"
+#include "demo3_typedef.h"
+#include "demo3_sort.h"
+#include "demo3_thread_pool.h"
+
+using namespace std;
 
 static const char *optString = "Il:o:vh?";
 static struct globalArgs_t globalArgs;
+
 // extern declare c-function list:
-extern int file_io_test();
-extern void demo3_test_parse_jpeg();
-extern void demo3_thread_pool_test();
 
 #ifdef __cplusplus
 extern "C" {
 #endif
-void test_big_small_endian()
+void demo3_big_or_small_endian()
 {
     unsigned int a = 1;
     BYTE_T *ptr = (BYTE_T*)&a; // cast int* to unsigned char* 
@@ -24,33 +29,16 @@ void test_big_small_endian()
 }
 #endif
 
-/* -- test 01 start -- */
-struct str{
-    int len;
-    char s[0];
-};
-struct foo{
-    struct str *a;
-};
-void test01()
-{
-    struct foo f = {0};
-    if(f.a->s)
-        printf(f.a->s);  // core down this line
-}
-
-
 int main(int argc, char* argv[]) 
 #if 1
 {
     _DEBUG_ENTER(main);
-    test_big_small_endian();
-    test01();
+    demo3_big_or_small_endian();
 
-
-
+    demo3_simple_sort_test();
+    demo3_distribution_sort_test();
+    
     //demo3_thread_pool_test();
-
     return 0;
 }
 #else

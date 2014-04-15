@@ -35,10 +35,10 @@ all: $(APP)
 	./demo3
 
 $(CPP_OBJS): $(DIR_OBJ)/%.o: %.cpp
-	$(CXX) -c $(CFLAGS) -o $@ $<
+	$(CXX) -c $(CFLAGS) -o $@ $< $(INCLUDE)
 
 $(OBJS): $(DIR_OBJ)/%.o: %.c
-	$(CXX) -c $(CFLAGS) -o $@ $<
+	$(CC) -c $(CFLAGS) -o $@ $< $(INCLUDE)
 
 $(APP): $(OBJS) $(CPP_OBJS)
 	$(CXX) $^ -o $(APP) $(LDFLAGS) $(INCLUDE)

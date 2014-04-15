@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include <stdio.h>
-#include "../include/demo3_thread_pool.h"
+#include "demo3_thread_pool.h"
 
 //#define THREAD_POOL_DEBUG
 

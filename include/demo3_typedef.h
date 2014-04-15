@@ -34,7 +34,13 @@ while(0)
 
 #define _DEBUG_ENTER(FUNC) \
 do{\
-printf("Function: "#FUNC" Enter!\n");\
+printf("Function: "#FUNC"() Enter!\n");\
+}\
+while(0)
+
+#define _DEBUG_LEAVE(FUNC) \
+do {\
+printf("Function: "#FUNC"() Exit!\n");\
 }\
 while(0)
 
