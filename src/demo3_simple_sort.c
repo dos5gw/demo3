@@ -16,7 +16,7 @@ void merge_sort(int* arr, int len);
 void heap_sort(int* arr, int len);
 void quick_sort(int* arr, int len); 
 
-Ptr_SortFunc _sort_func[] = { bubble_sort, selection_sort, insertion_sort, shell_sort, merge_sort, heap_sort, quick_sort };
+Ptr_SortFunc _sort_func[] = { bubble_sort, selection_sort, insertion_sort, shell_sort, quick_sort, merge_sort, heap_sort };
 #define DEBUG_PRINT_SORT_FUNC()\
 do{\
     printf("LEVEL\t|\t bubble\t selection\t insertion\t shell\t merge\t heap\t quick\n");\
@@ -27,7 +27,7 @@ do{\
    FUNC(ARRAY,SIZE);\
 }while(0)
 
-#define _PERFORMANCE_TEST
+//#define _PERFORMANCE_TEST
 
 void demo3_simple_sort_test(){
 
@@ -59,16 +59,14 @@ void demo3_simple_sort_test(){
             finish = clock();
             printf("%f\t",(finish-start)*1.0/CLOCKS_PER_SEC);
         }
-
         printf("\n");
-    
     }
 #endif
 
     //use static array[] for testing
 #ifndef _PERFORMANCE_TEST
-    static int array[8] = { 8, 1, 3, 5, 6, 4, 2, 7 };
-    DEBUG_RUN_SORT_FUNC(insertion_sort,array,8);
+    static int array[8] = { 8, 1, 6, 5, 3, 4, 2, 7 };
+    DEBUG_RUN_SORT_FUNC(quick_sort,array,8);
     print_array(array,8);
 #endif
 
@@ -101,12 +99,64 @@ void bubble_sort(int* a, int size) /* worst: O(n^2) */
  * 最坏：O（n^2）
  * 空间复杂度：O（n*lgn）
  */
+#if 0
+int Partition(int *a,int low,int high)
+{
+    int val = a[low];
+    while(low < high)
+    {
+        while(low=val)
+            high--;
+        a[low] = a[high];
+
+        while(low<=val)
+            low++;
+        a[high] = a[low];     
+    }
+    a[low] = val;
+    return low;
+}
+void QuickSort(int *a,int low,int high)
+{
+    int pos;
+    if(low < high)
+    {
+        pos = Partition(a,low,high);
+        QuickSort(a,low,pos-1);
+        QuickSort(a,pos+1,high); 
+    }
+    return ;
+}
+#else
+static int Partition(int data[],int lo,int hi) 
+{
+    int key=data[hi];
+    int j, i=lo-1;
+    for(j=lo;j<hi;j++) 
+    {
+        if(data[j]<=key)
+        {
+            i=i+1;
+            swap_array(&data[i],&data[j]);
+        }
+    }
+    swap_array(&data[i+1],&data[hi]); 
+    return i+1;
+}
+static void QuickSort(int data[], int lo, int hi)
+{
+    if (lo<hi)
+    {
+        int k = Partition(data, lo, hi);
+        QuickSort(data, lo, k-1);
+        QuickSort(data, k+1, hi);
+    }
+}
+#endif
 void quick_sort(int *a, int size)
 {
     //_DEBUG_ENTER(quick_sort);
-
-    int i,j;
-
+    QuickSort(a, 0, size-1);
 }
 
 
@@ -170,13 +220,13 @@ void shell_sort(int* a, int size)
 {
 }
 
-void merge_sort(int* arr, int len)
+
+// 归并排序
+void merge_sort(int* a, int size)
 {
 }
 
-
-
-
+/* print and swap */
 static void print_array(int* arr, int len)
 {
     int i=0;
